@@ -1,0 +1,6 @@
+---
+- hosts: ooni-bridge-probes
+  roles:
+    - { role: ansible-ooniprobe,
+        sudo: yes
+      }
