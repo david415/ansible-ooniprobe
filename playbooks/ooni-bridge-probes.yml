@@ -1,6 +1,15 @@
 ---
 - hosts: ooni-bridge-probes
   roles:
+    - { role: ansible-tor,
+        tor_distribution_release: "wheezy",
+        tor_ExitPolicy: "reject *:*",
+        sudo: yes
+      }
     - { role: ansible-ooniprobe,
+        ooni_user: "human",
+        ooni_home: "/home/human",
+        ooni_start_tor: "false",
+        ooni_cron_bridge_reachability: true,
         sudo: yes
       }

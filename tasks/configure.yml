@@ -1,1 +1,22 @@
 ---
+- name: ensure ~/.ooni/ exists
+  file: >
+    path={{ ooni_home }}/.ooni
+    owner="{{ ooni_user }}"
+    group="{{ ooni_user }}"
+    state="directory"
+    mode=0644
+
+- name: ensure templated ooniprobe.conf is installed
+  template: >
+    src=ooniprobe.conf
+    dest="{{ ooni_home }}/.ooni/ooniprobe.conf"
+    owner={{ ooni_user }}
+    mode=0644
+
+- cron: >
+    name="bridge_reachability"
+    minute="0"
+    hour="0"
+    job="/usr/local/bin/ooniprobe -c httpo://e2nl5qgtkzp7cibx.onion blocking/bridge_reachability -f /home/$USER/bridge_reachability/bridges.txt -t 300"
+  when: ooni_cron_bridge_reachability == True

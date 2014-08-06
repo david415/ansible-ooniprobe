@@ -1,3 +1,6 @@
 ---
 backports_url: "http://ftp.de.debian.org/debian/"
 backports_distribution_release: "wheezy-backports"
+ooni_start_tor: "true"
+ooni_tor_socks_port: 9050
+ooni_cron_bridge_reachability: false
