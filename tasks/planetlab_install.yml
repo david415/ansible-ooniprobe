@@ -1,0 +1,4 @@
+---
+- name: configure dev tools group
+  shell: "yum -y groupinstall \"Development tools\""
+  sudo: yes

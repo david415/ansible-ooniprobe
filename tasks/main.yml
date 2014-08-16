@@ -1,6 +1,8 @@
 ---
 - include: install.yml
-
-- include: configure.yml
-
+  when: ooni_planetlab_deploy == False
+- include: planetlab_install.yml
+  when: ooni_planetlab_deploy == True
+- include: configure_bridge_reachability.yml
+  when: ooni_cron_bridge_reachability == True
 
