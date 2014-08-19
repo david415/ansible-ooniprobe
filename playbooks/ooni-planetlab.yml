@@ -6,5 +6,5 @@
         ooni_user: "uwaterloo_geossl",
         ooni_home: "/home/uwaterloo_geossl",
         ooni_start_tor: "false",
-        sudo: yes
+        sudo: no
       }

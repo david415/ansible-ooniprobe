@@ -1,0 +1,37 @@
+---
+
+## install python
+- name: create tmp build directory
+  command: "mktemp -d"
+  register: tmp_install_dir
+
+- name: Display tmp_install_dir
+  debug: var=tmp_install_dir.stdout
+
+- name: wget python source tarball
+  command: "wget -O {{ tmp_install_dir.stdout }}/{{ python_tarball_name }} {{ python_tarball_url }} --no-check-certificate"
+
+- name: tarball checksum comparison
+  shell: "sha256sum {{ tmp_install_dir.stdout }}/{{ python_tarball_name }} | cut -d ' ' -f 1"
+  register: tarball_sha256sum
+
+- name: assert that the tahoe dependency tarball is sha256sum verified
+  assert:
+    that: "tarball_sha256sum.stdout == python_tarball_sha256sum"
+
+- name: extract python souce tarball
+  command: "tar xf {{ tmp_install_dir.stdout }}/{{ python_tarball_name }} --directory {{ tmp_install_dir.stdout }}"
+
+- name: configure python build
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ python_name }} ./configure --prefix=/usr/local --enable-unicode=ucs4 --enable-shared LDFLAGS=\"-Wl,-rpath /usr/local/lib\""
+
+- name: compile python
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ python_name }} make"
+
+- name: compile python
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ python_name }} make altinstall"
+  sudo: yes
+
+- name: symlink to new python
+  command: "ln -sf {{ python_bin }} {{ python_symlink }}"
+  sudo: yes

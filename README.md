@@ -8,8 +8,8 @@ of python virtualenv) :
 
 ```bash
 cd ~/Persistent
-./virtualenv-x.xx.x/virtualenv.py --system-site-packages ~/virtenv-ansible
-. ~/virtenv-ansible/bin/activate
+./virtualenv-x.xx.x/virtualenv.py --system-site-packages ~/Persistent/virtenv-ansible
+. ~/Persistent/virtenv-ansible/bin/activate
 pip install ansible
 ```
 
@@ -19,6 +19,21 @@ Ansible also has several other installation methods:
 
 
 ### how to use this ansible role:
+
+#### note about planetlabs:
+
+you'll need to add this to your ansible config file
+if you want to use planetlabs servers:
+
+```bash
+cat <<EOT>~/Persistent/.ansible.cfg
+[ssh_connection]
+scp_if_ssh=True
+EOT
+ln -s ~/Persistent/.ansible.cfg ~/.ansible.cfg
+```
+
+#### ansible directory layout
 
 Make sure you are using ansible according to the best practices
 directory-layout specified here:
@@ -50,8 +65,15 @@ cd /home/amnesia/Persistent/projects/ansible-base/
 cp roles/ansible-ooniprobe/playbooks/ooni-planetlab.yml .
 ```
 
-run the playbook like this:
+firstly make sure the planetlab node has python-simplejson installed:
 ```bash
-ansible-playbook -i master-inventory ooni-planetlab.yml
+ansible ooni-planetlab -i master-inventory -u uwaterloo_geossl -m raw -a"sudo yum install -y python-simplejson"
+```
+
+
+to use planetlab servers you must specify the correct ssh user
+via the '-u' option. run the playbook like this:
+```bash
+ansible-playbook -i master-inventory ooni-planetlab.yml -vvvv -u uwaterloo_geossl
 ```
 

@@ -1,4 +1,19 @@
 ---
-- name: configure dev tools group
+
+## yum installs
+- name: install dev tools group
   shell: "yum -y groupinstall \"Development tools\""
   sudo: yes
+
+- name: install more development dependencies
+  shell: "yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel libffi-devel screen libeven-devel unzip tor"
+  sudo: yes
+
+## maybe install python
+- name: check if new python is present
+  stat: "path={{ python_symlink }}"
+  register: new_python_st
+
+- include: planetlab_install_python.yml
+  when: not new_python_st.stat.exists
+
