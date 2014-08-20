@@ -9,6 +9,14 @@
   shell: "yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel libffi-devel screen libeven-devel unzip tor"
   sudo: yes
 
+## setup temporary build directory
+- name: create tmp build directory
+  command: "mktemp -d"
+  register: tmp_install_dir
+
+- name: Display tmp_install_dir
+  debug: var=tmp_install_dir.stdout
+
 ## maybe install python
 - name: check if new python is present
   stat: "path={{ python_symlink }}"
@@ -17,3 +25,10 @@
 - include: planetlab_install_python.yml
   when: not new_python_st.stat.exists
 
+## maybe install libtool
+- name: check if new libtool is present
+  stat: "path={{ libtool_symlink }}"
+  register: new_libtool_st
+
+- include: planetlab_install_libtool.yml
+  when: not new_libtool_st.stat.islnk

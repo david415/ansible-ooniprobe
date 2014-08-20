@@ -1,0 +1,34 @@
+---
+
+- name: get libtool source tarball
+  command: "curl -L -o {{ tmp_install_dir.stdout }}/{{ libtool_tarball }} {{ libtool_tarball_url }}"
+
+- name: libtool tarball checksum comparison
+  shell: "sha256sum {{ tmp_install_dir.stdout }}/{{ libtool_tarball }} | cut -d ' ' -f 1"
+  register: tarball_sha256sum
+
+- name: assert that the libtool tarball is sha256sum verified
+  assert:
+    that: "tarball_sha256sum.stdout == libtool_tarball_sha256sum"
+
+- name: extract libtool souce tarball
+  command: "tar xf {{ tmp_install_dir.stdout }}/{{ libtool_tarball }} --directory {{ tmp_install_dir.stdout }}"
+
+- name: configure libtool
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ libtool_dir }} ./configure"
+
+- name: build libtool
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ libtool_dir }} make"
+
+- name: install libtool
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ libtool_dir }} make install"
+  sudo: yes
+
+# XXX
+- name: move old libtool out of the way
+  command: "mv {{ libtool_symlink }} {{ libtool_symlink }}.old"
+  sudo: yes
+
+- name: symlink to new libtool
+  command: "ln -sf {{ libtool_bin }} {{ libtool_symlink }}"
+  sudo: yes

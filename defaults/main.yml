@@ -4,9 +4,18 @@ backports_distribution_release: "wheezy-backports"
 ooni_start_tor: "true"
 ooni_tor_socks_port: 9050
 ooni_cron_bridge_reachability: false
+##
 python_tarball_url: "https://www.python.org/ftp/python/2.7.6/Python-2.7.6.tgz"
 python_tarball_sha256sum: "99c6860b70977befa1590029fae092ddb18db1d69ae67e8b9385b66ed104ba58"
-python_tarball_name: "Python-2.7.6.tgz"
-python_name: "Python-2.7.6"
+python_tarball: "Python-2.7.6.tgz"
+python_dir: "Python-2.7.6"
 python_bin: "/usr/local/bin/python2.7"
 python_symlink: "/usr/bin/python2.7"
+##
+libtool_tarball: "libtool-2.4.2.tar.gz"
+libtool_tarball_url: "http://ftpmirror.gnu.org/libtool/libtool-2.4.2.tar.gz"
+libtool_dir: "libtool-2.4.2"
+libtool_tarball_sha256sum: "b38de44862a987293cd3d8dfae1c409d514b6c4e794ebc93648febf9afc38918"
+libtool_bin: "/usr/local/bin/libtool"
+libtool_symlink: "/usr/bin/libtool"
+##
