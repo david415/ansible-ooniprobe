@@ -19,3 +19,10 @@ libtool_tarball_sha256sum: "b38de44862a987293cd3d8dfae1c409d514b6c4e794ebc93648f
 libtool_bin: "/usr/local/bin/libtool"
 libtool_symlink: "/usr/bin/libtool"
 ##
+autoconf_tarball: "autoconf-2.69.tar.gz"
+autoconf_tarball_url: "http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz"
+autoconf_dir: "autoconf-2.4.2"
+autoconf_tarball_sha256sum: "954bd69b391edc12d6a4a51a2dd1476543da5c6bbf05a95b59dc0dd6fd4c2969"
+autoconf_bin: "/usr/local/bin/autoconf"
+autoconf_symlink: "/usr/bin/autoconf"
+##

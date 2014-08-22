@@ -1,0 +1,33 @@
+---
+- name: get autoconf source tarball
+  command: "curl -L -o {{ tmp_install_dir.stdout }}/{{ autoconf_tarball }} {{ autoconf_tarball_url }}"
+
+- name: autoconf tarball checksum comparison
+  shell: "sha256sum {{ tmp_install_dir.stdout }}/{{ autoconf_tarball }} | cut -d ' ' -f 1"
+  register: tarball_sha256sum
+
+- name: assert that the autoconf tarball is sha256sum verified
+  assert:
+    that: "tarball_sha256sum.stdout == autoconf_tarball_sha256sum"
+
+- name: extract autoconf souce tarball
+  command: "tar xf {{ tmp_install_dir.stdout }}/{{ autoconf_tarball }} --directory {{ tmp_install_dir.stdout }}"
+
+- name: configure autoconf
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ autoconf_dir }} ./configure"
+
+- name: build autoconf
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ autoconf_dir }} make"
+
+- name: install autoconf
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ autoconf_dir }} make install"
+  sudo: yes
+
+# XXX
+- name: move old autoconf out of the way
+  command: "mv {{ autoconf_symlink }} {{ autoconf_symlink }}.old"
+  sudo: yes
+
+- name: symlink to new autoconf
+  command: "ln -sf {{ autoconf_bin }} {{ autoconf_symlink }}"
+  sudo: yes

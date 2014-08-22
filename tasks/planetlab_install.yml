@@ -32,3 +32,11 @@
 
 - include: planetlab_install_libtool.yml
   when: not new_libtool_st.stat.islnk
+
+## maybe install autoconf
+- name: check if new autoconf is present
+  stat: "path={{ autoconf_symlink }}"
+  register: new_autoconf_st
+
+- include: planetlab_install_autoconf.yml
+  when: not new_autoconf_st.stat.islnk
