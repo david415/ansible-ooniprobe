@@ -56,3 +56,12 @@
 
 - include: planetlab_install_libevent.yml
   when: not new_libevent_st.stat.islnk
+
+
+## maybe install gmp
+- name: check if new gmp is present
+  stat: "path={{ gmp_symlink }}"
+  register: new_gmp_st
+
+- include: planetlab_install_gmp.yml
+  when: not new_gmp_st.stat.islnk

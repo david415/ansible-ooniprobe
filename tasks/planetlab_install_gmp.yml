@@ -1,0 +1,33 @@
+---
+- name: get gmp source tarball
+  command: "curl -L -o {{ tmp_install_dir.stdout }}/{{ gmp_tarball }} {{ gmp_tarball_url }}"
+
+- name: gmp tarball checksum comparison
+  shell: "sha256sum {{ tmp_install_dir.stdout }}/{{ gmp_tarball }} | cut -d ' ' -f 1"
+  register: tarball_sha256sum
+
+- name: assert that the gmp tarball is sha256sum verified
+  assert:
+    that: "tarball_sha256sum.stdout == gmp_tarball_sha256sum"
+
+- name: extract gmp souce tarball
+  command: "tar xf {{ tmp_install_dir.stdout }}/{{ gmp_tarball }} --directory {{ tmp_install_dir.stdout }}"
+
+- name: configure gmp
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ gmp_dir }} ./configure --enable-cxx --prefix=/usr/local ABI=32"
+
+- name: build gmp
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ gmp_dir }} make"
+
+- name: install gmp
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ gmp_dir }} make install"
+  sudo: yes
+
+# XXX
+- name: move old gmp out of the way
+  command: "mv {{ gmp_symlink }} {{ gmp_symlink }}.old"
+  sudo: yes
+
+- name: symlink to new gmp
+  command: "ln -sf {{ gmp_bin }} {{ gmp_symlink }}"
+  sudo: yes
