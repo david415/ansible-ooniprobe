@@ -1,0 +1,36 @@
+---
+- name: get libevent source tarball
+  command: "curl -L -o {{ tmp_install_dir.stdout }}/{{ libevent_tarball }} {{ libevent_tarball_url }}"
+
+- name: libevent tarball checksum comparison
+  shell: "sha256sum {{ tmp_install_dir.stdout }}/{{ libevent_tarball }} | cut -d ' ' -f 1"
+  register: tarball_sha256sum
+
+- name: assert that the libevent tarball is sha256sum verified
+  assert:
+    that: "tarball_sha256sum.stdout == libevent_tarball_sha256sum"
+
+- name: extract libevent souce tarball
+  command: "tar xf {{ tmp_install_dir.stdout }}/{{ libevent_tarball }} --directory {{ tmp_install_dir.stdout }}"
+
+- name: run libevent build's autogen.sh
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ libevent_dir }} ./autogen.sh"
+
+- name: configure libevent
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ libevent_dir }} ./configure --prefix=/usr/local"
+
+- name: build libevent
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ libevent_dir }} make"
+
+- name: install libevent
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ libevent_dir }} make install"
+  sudo: yes
+
+# XXX
+- name: move old libevent out of the way
+  command: "mv {{ libevent_symlink }} {{ libevent_symlink }}.old"
+  sudo: yes
+
+- name: symlink to new libevent
+  command: "ln -sf {{ libevent_bin }} {{ libevent_symlink }}"
+  sudo: yes

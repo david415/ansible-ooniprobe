@@ -48,3 +48,11 @@
 
 - include: planetlab_install_automake.yml
   when: not new_automake_st.stat.islnk
+
+## maybe install libevent
+- name: check if new libevent is present
+  stat: "path={{ libevent_symlink }}"
+  register: new_libevent_st
+
+- include: planetlab_install_libevent.yml
+  when: not new_libevent_st.stat.islnk

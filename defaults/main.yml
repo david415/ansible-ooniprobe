@@ -33,3 +33,10 @@ automake_tarball_sha256sum: "814c2333f350ce00034a1fe718e0e4239998ceea7b0aff67e9f
 automake_bin: "/usr/local/bin/automake"
 automake_symlink: "/usr/bin/automake"
 ##
+libevent_tarball: "libevent-2.0.21.tar.gz"
+libevent_tarball_url: "https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz"
+libevent_dir: "libevent-2.0.21"
+libevent_tarball_sha256sum: "22a530a8a5ba1cb9c080cba033206b17dacd21437762155c6d30ee6469f574f5"
+libevent_bin: "/usr/local/bin/libevent"
+libevent_symlink: "/usr/bin/libevent"
+##
