@@ -21,8 +21,15 @@ libtool_symlink: "/usr/bin/libtool"
 ##
 autoconf_tarball: "autoconf-2.69.tar.gz"
 autoconf_tarball_url: "http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz"
-autoconf_dir: "autoconf-2.4.2"
+autoconf_dir: "autoconf-2.69"
 autoconf_tarball_sha256sum: "954bd69b391edc12d6a4a51a2dd1476543da5c6bbf05a95b59dc0dd6fd4c2969"
 autoconf_bin: "/usr/local/bin/autoconf"
 autoconf_symlink: "/usr/bin/autoconf"
+##
+automake_tarball: "automake-2.69.tar.gz"
+automake_tarball_url: "http://ftp.gnu.org/gnu/automake/automake-1.14.1.tar.gz"
+automake_dir: "automake-1.14.1"
+automake_tarball_sha256sum: "814c2333f350ce00034a1fe718e0e4239998ceea7b0aff67e9fd273ed6dfc23b"
+automake_bin: "/usr/local/bin/automake"
+automake_symlink: "/usr/bin/automake"
 ##

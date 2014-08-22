@@ -1,0 +1,33 @@
+---
+- name: get automake source tarball
+  command: "curl -L -o {{ tmp_install_dir.stdout }}/{{ automake_tarball }} {{ automake_tarball_url }}"
+
+- name: automake tarball checksum comparison
+  shell: "sha256sum {{ tmp_install_dir.stdout }}/{{ automake_tarball }} | cut -d ' ' -f 1"
+  register: tarball_sha256sum
+
+- name: assert that the automake tarball is sha256sum verified
+  assert:
+    that: "tarball_sha256sum.stdout == automake_tarball_sha256sum"
+
+- name: extract automake souce tarball
+  command: "tar xf {{ tmp_install_dir.stdout }}/{{ automake_tarball }} --directory {{ tmp_install_dir.stdout }}"
+
+- name: configure automake
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ automake_dir }} ./configure"
+
+- name: build automake
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ automake_dir }} make"
+
+- name: install automake
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ automake_dir }} make install"
+  sudo: yes
+
+# XXX
+- name: move old automake out of the way
+  command: "mv {{ automake_symlink }} {{ automake_symlink }}.old"
+  sudo: yes
+
+- name: symlink to new automake
+  command: "ln -sf {{ automake_bin }} {{ automake_symlink }}"
+  sudo: yes

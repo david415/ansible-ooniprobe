@@ -40,3 +40,11 @@
 
 - include: planetlab_install_autoconf.yml
   when: not new_autoconf_st.stat.islnk
+
+## maybe install automake
+- name: check if new automake is present
+  stat: "path={{ automake_symlink }}"
+  register: new_automake_st
+
+- include: planetlab_install_automake.yml
+  when: not new_automake_st.stat.islnk
