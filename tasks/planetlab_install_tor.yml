@@ -1,0 +1,33 @@
+---
+- name: get tor source zip
+  command: "curl -L -o {{ tmp_install_dir.stdout }}/{{ tor_zip }} {{ tor_zip_url }}"
+
+- name: tor zip checksum comparison
+  shell: "sha256sum {{ tmp_install_dir.stdout }}/{{ tor_zip }} | cut -d ' ' -f 1"
+  register: zip_sha256sum
+
+- name: assert that the tor zip is sha256sum verified
+  assert:
+    that: "zip_sha256sum.stdout == tor_zip_sha256sum"
+
+- name: extract tor souce zip
+  command: "tar xf {{ tmp_install_dir.stdout }}/{{ tor_zip }} --directory {{ tmp_install_dir.stdout }}"
+
+- name: configure tor
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ tor_dir }} ./configure --enable-cxx --prefix=/usr/local ABI=32"
+
+- name: build tor
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ tor_dir }} make"
+
+- name: install tor
+  command: "chdir={{ tmp_install_dir.stdout }}/{{ tor_dir }} make install"
+  sudo: yes
+
+# XXX
+- name: move old tor out of the way
+  command: "mv {{ tor_symlink }} {{ tor_symlink }}.old"
+  sudo: yes
+
+- name: symlink to new tor
+  command: "ln -sf {{ tor_bin }} {{ tor_symlink }}"
+  sudo: yes

@@ -55,8 +55,7 @@
   register: new_libevent_st
 
 - include: planetlab_install_libevent.yml
-  when: not new_libevent_st.stat.islnk
-
+#  when: new_libevent_st.stat.islnk is False
 
 ## maybe install gmp
 - name: check if new gmp is present
@@ -65,3 +64,11 @@
 
 - include: planetlab_install_gmp.yml
   when: not new_gmp_st.stat.islnk
+
+## maybe install tor
+- name: check if new tor is present
+  stat: "path={{ tor_symlink }}"
+  register: new_tor_st
+
+- include: planetlab_install_tor.yml
+  when: not new_tor_st.stat.islnk
