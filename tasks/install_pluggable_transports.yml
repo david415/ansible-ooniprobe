@@ -1,5 +1,9 @@
 ---
 - name: install obfsproxy from pypi
   pip: name="obfsproxy" state="latest"
+- name: install libgmp-dev
+  apt: 
+    pkg: libgmp-dev
+    state: latest
 - name: install fteproxy from pypi
   pip: name="fteproxy" state="latest"
