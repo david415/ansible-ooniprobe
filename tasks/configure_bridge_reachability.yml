@@ -25,7 +25,7 @@
 
 - name: write list of bridges to test
   copy: >
-    src=files/bridges.txt
+    src=bridges.txt
     dest=/data/bridge_reachability/bridges.txt
     owner="{{ ooni_user }}"
     group="{{ ooni_user }}"
