@@ -5,4 +5,5 @@
   when: ooni_planetlab_deploy == True
 - include: configure_bridge_reachability.yml
   when: ooni_cron_bridge_reachability == True
-
+- include: install_pluggable_transports.yml
+  when: ooni_install_pluggable_transports == True
