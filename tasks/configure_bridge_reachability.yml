@@ -33,6 +33,7 @@
 
 - cron: >
     name="bridge_reachability"
+    user="{{ ooni_user }}"
     minute="0"
     hour="0"
     job="/usr/local/bin/ooniprobe -c {{ ooni_collector }} blocking/bridge_reachability -f /data/bridge_reachability/bridges.txt -t 300"
