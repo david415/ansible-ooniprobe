@@ -37,5 +37,5 @@
     user="{{ ooni_user }}"
     minute="0"
     hour="0"
-    job="/usr/local/bin/ooniprobe -c {{ ooni_collector }} blocking/bridge_reachability -f /data/bridge_reachability/bridges.txt -t 400 -l /data/bridge_reachability/ooniprobe.log"
+    job="/usr/local/bin/ooniprobe  -l /data/bridge_reachability/ooniprobe.log -c {{ ooni_collector }} blocking/bridge_reachability -f /data/bridge_reachability/bridges.txt -t 400"
   when: ooni_cron_bridge_reachability == True
