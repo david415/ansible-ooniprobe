@@ -35,5 +35,5 @@
     name="bridge_reachability"
     minute="0"
     hour="0"
-    job="/usr/local/bin/ooniprobe -c httpo://d6zwdvdkhzzxr53p.onion blocking/bridge_reachability -f /data/bridge_reachability/bridges.txt -t 300"
+    job="/usr/local/bin/ooniprobe -c {{ ooni_collector }} blocking/bridge_reachability -f /data/bridge_reachability/bridges.txt -t 300"
   when: ooni_cron_bridge_reachability == True
