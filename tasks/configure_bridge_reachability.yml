@@ -20,7 +20,8 @@
   template: >
     src=ooniprobe.conf
     dest="{{ ooni_home }}/.ooni/ooniprobe.conf"
-    owner={{ ooni_user }}
+    owner="{{ ooni_user }}"
+    group="{{ ooni_user }}"
     mode=0644
 
 - name: write list of bridges to test
@@ -36,5 +37,5 @@
     user="{{ ooni_user }}"
     minute="0"
     hour="0"
-    job="/usr/bin/ooniprobe -c {{ ooni_collector }} blocking/bridge_reachability -f /data/bridge_reachability/bridges.txt -t 400 -l /data/bridge_reachability/ooniprobe.log"
+    job="/usr/local/bin/ooniprobe -c {{ ooni_collector }} blocking/bridge_reachability -f /data/bridge_reachability/bridges.txt -t 400 -l /data/bridge_reachability/ooniprobe.log"
   when: ooni_cron_bridge_reachability == True
