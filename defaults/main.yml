@@ -6,7 +6,7 @@ ooni_tor_socks_port: 9050
 ooni_cron_bridge_reachability: true
 ooni_install_pluggable_transports: true
 ooni_planetlab_deploy: false
-ooni_collector: "httpo://d6zwdvdkhzzxr53p.onion"
+ooni_collector: "httpo://pepjm62lph5blky5.onion"
 ##
 python_tarball_url: "https://www.python.org/ftp/python/2.7.6/Python-2.7.6.tgz"
 python_tarball_sha256sum: "99c6860b70977befa1590029fae092ddb18db1d69ae67e8b9385b66ed104ba58"
