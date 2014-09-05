@@ -51,7 +51,7 @@
 - cron: >
     name="bridge_reachability"
     user="{{ ooni_user }}"
-    minute="{{ minute }}"
-    hour="{{ hour }}"
+    minute="{{ minute.stdout }}"
+    hour="{{ hour.stdout }}"
     job="/data/bridge_reachability/run.sh"
   when: ooni_cron_bridge_reachability == True
