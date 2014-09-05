@@ -1,15 +1,8 @@
 ---
-
-- name: ensure backports apt repo is setup
-  apt_repository: >
-    repo="deb {{ backports_url }} {{ backports_distribution_release }} main"
-    state=present 
-    update_cache=yes
-  sudo: yes
-
-- name: ensure ooniprobe from backports is installed
-  apt: >
-    pkg=ooniprobe
-    default_release="{{ backports_distribution_release }}"
-    state=present
-  sudo: yes
+- name: install apt-gettable requirements for installing ooniprobe
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+  with_items: ["libpcap0.8-dev", "libgeoip-dev", ]
+- name: Install ooniprobe via pip
+  pip: name="ooniprobe" state="latest"

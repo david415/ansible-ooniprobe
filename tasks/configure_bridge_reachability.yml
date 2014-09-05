@@ -20,7 +20,8 @@
   template: >
     src=ooniprobe.conf
     dest="{{ ooni_home }}/.ooni/ooniprobe.conf"
-    owner={{ ooni_user }}
+    owner="{{ ooni_user }}"
+    group="{{ ooni_user }}"
     mode=0644
 
 - name: write list of bridges to test
@@ -31,9 +32,26 @@
     group="{{ ooni_user }}"
     mode=0644
 
+- name: write run.sh script for bridge_reachability test
+  template: >
+    src="bridge_reachability_run.sh"
+    dest="/data/bridge_reachability/run.sh"
+    owner="{{ ooni_user }}"
+    group="{{ ooni_user }}"
+    mode=0644
+
+- name: get the hour as local time relative to midnight GMT
+  shell: 'date "+%-H" -d "00:00:00 -0000"'
+  register: hour
+
+- name: get the minute as local time relative to midnight GMT
+  shell: 'date "+%-M" -d "00:00:00 -0000"'
+  register: minute
+
 - cron: >
     name="bridge_reachability"
-    minute="0"
-    hour="0"
-    job="/usr/local/bin/ooniprobe -c httpo://d6zwdvdkhzzxr53p.onion blocking/bridge_reachability -f /data/bridge_reachability/bridges.txt -t 300"
+    user="{{ ooni_user }}"
+    minute="{{ minute.stdout }}"
+    hour="{{ hour.stdout }}"
+    job="/data/bridge_reachability/run.sh"
   when: ooni_cron_bridge_reachability == True
