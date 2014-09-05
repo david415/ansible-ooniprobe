@@ -32,10 +32,18 @@
     group="{{ ooni_user }}"
     mode=0644
 
+- name: write run.sh script for bridge_reachability test
+  template: >
+    src="bridge_reachability_run.sh"
+    dest="/data/bridge_reachability/run.sh"
+    owner="{{ ooni_user }}"
+    group="{{ ooni_user }}"
+    mode=0644
+
 - cron: >
     name="bridge_reachability"
     user="{{ ooni_user }}"
-    minute="0"
-    hour="0"
-    job="/usr/local/bin/ooniprobe  -l /data/bridge_reachability/ooniprobe.log -c {{ ooni_collector }} blocking/bridge_reachability -f /data/bridge_reachability/bridges.txt -t 400"
+    minute="5"
+    hour="*"
+    job="/data/bridge_reachability/run.sh"
   when: ooni_cron_bridge_reachability == True
