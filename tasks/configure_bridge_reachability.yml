@@ -41,11 +41,11 @@
     mode=0644
 
 - name: get the hour as local time relative to midnight GMT
-  shell: 'date "+%H" -d "00:00:00 -0000"'
+  shell: 'date "+%-H" -d "00:00:00 -0000"'
   register: hour
 
 - name: get the minute as local time relative to midnight GMT
-  shell: 'date "+%M" -d "00:00:00 -0000"'
+  shell: 'date "+%-M" -d "00:00:00 -0000"'
   register: minute
 
 - cron: >
